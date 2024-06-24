@@ -4,7 +4,7 @@ import { Table, Tbody, Td, Th, Thead, Tr, chakra } from "@chakra-ui/react";
 import processSchoolRow from "./processSchoolRow";
 import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
 import SetupMenuColumn from "./SetupMenuColumn";
-//const menuDefinition = <SetupMenuColumn />;
+
 let globalRowNum;
 
 const CreateReactTableForSchool = ({
@@ -55,11 +55,6 @@ const CreateReactTableForSchool = ({
 			{
 				Header: "hide-date", // Hidden: for sorting purposes only - see above
 				accessor: "deploymentdate_sortvalue",
-				isVisible: true,
-			},
-			{
-				Header: "hide-id", // Hidden: to determine record to be edited
-				accessor: "id",
 				isVisible: true,
 			},
 			{

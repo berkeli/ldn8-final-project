@@ -18,19 +18,20 @@ export const getSchedules = (req, res) => {
 		INNER JOIN school on school.id = scheduleTracker.schoolId 
 		INNER JOIN initiative on initiative.id = scheduleTracker.programmeInitiativeId 
 		INNER JOIN person on scheduleTracker.deliveredById = person.id 
-		INNER JOIN person as createdBy on scheduleTracker.created_byid = createdBy.id
-		ORDER BY scheduleTracker.created_at DESC, school.country`,
+		INNER JOIN person as createdBy on scheduleTracker.created_byid = createdBy.id `,
 	};
 
 	if (searchQuery) {
 		query.text +=
 			" WHERE LOWER(school.name) LIKE $1 or LOWER(initiative.name) LIKE $1";
+		query.text += " ORDER BY scheduleTracker.created_at DESC, school.country";
 		query.values = ["%" + searchQuery.toLowerCase() + "%"];
 	}
 
 	pool.query(query, (err, results) => {
 		if (err) {
-			throw err;
+			res.status(400).json({ message: err.message });
+			return;
 		}
 		res.json(results.rows);
 	});
@@ -116,7 +117,8 @@ export const updateSchedule = async (req, res) => {
 			[id],
 			(err, results) => {
 				if (err) {
-					throw err;
+					res.status(400).json({ message: err.message });
+					return;
 				}
 				res.send(results.rows);
 			}
@@ -138,7 +140,8 @@ export const deleteSchedule = async (req, res) => {
 			[id],
 			(err, results) => {
 				if (err) {
-					throw err;
+					res.status(400).json({ message: err.message });
+					return;
 				}
 				res.send(results.rows);
 			}
